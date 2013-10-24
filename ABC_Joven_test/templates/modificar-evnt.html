@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Actualizar Evento</title>
+	<meta charset="utf-8" /></div>
+	<link rel="stylesheet" href="../css/normalize.min.css">
+	<link rel="stylesheet" href="../css/style.css" />
+    <link href="../css/custom-theme/jquery-ui-1.10.2.custom.css" rel="stylesheet"/>
+    <script src="../js/prefixfree.min.js"></script>
+	<script src="../js/jquery-1.9.1.js"></script>
+    <script src="../js/jquery-ui-1.10.2.custom.min.js"></script>
+    <style type="text/css">
+		input[type=text] {
+			width: 100%;
+		}
+    </style>
+</head>
+<body>
+	<div id="page-datail" class="page-wrap-detail">
+		<div class="page-wrap">
+                <h3> Actualizar Evento</h3>
+                <div class="rowElem">
+                   <div class="rowLabel"><label for="up-nevento-input">Evento:</label></div>
+                    <div class="rowInput">
+                    <textarea name="" id="up-nevento-input" cols="30" rows="10"></textarea>
+                    </div>
+                </div>
+                
+                <div class="rowElem">
+                    <div class="rowLabel"><label for="up-edo">Estado:</label></div>
+                    <div class="rowInput"><select id="up-edo">
+                    	<option value="1">Deshabilitada</option><option value="0">Habilitada</option>
+                    </select></div>
+                </div>
+                
+                <div class="rowElem">
+                    <div class="rowLabel"><label for="up-linea">Linea:</label></div>
+                    <div class="rowInput"><select name="up-linea" id="up-linea"></select> </div>
+                </div>
+
+                
+                <div class="rowElem">
+                    <div class="rowLabel"><label for="up-est">Estrategia:</label></div>
+                     <div class="rowInput"><select name="up-est" id="up-est"></select> </div>
+                </div>
+
+               
+                <div class="rowElem">
+                    <div class="rowLabel"><label for="up-pro">Programa:</label></div>
+                    <div class="rowInput"><select name="up-pro" id="up-pro"></select> </div>
+                </div>
+
+                <div class="rowElem">
+                    <div class="rowLabel"><label for="up-tipo">Tipo:</label></div>
+                    <div class="rowInput"><select id="up-tipo"></select/></div>
+                </div>
+                <div class="rowElem"><div class="rowInput">
+	        		<div id="noti-evnt-update"></div>
+	            	<input type="submit" class="boton-form" id="update-evnt" value="Actualizar Evento" /></div></div>
+            </div>
+	</div>
+	<script src="../js/functions-modificar-evento.ajax.js"></script>
+</body>
+</html>
