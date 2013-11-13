@@ -645,7 +645,8 @@ class Joven
  		if($this->con->conectar())
  		{
  			$edad = $this->edadJoven($fechaNac);
- 			if( mysql_query("UPDATE detalle_joven SET Nombre = '".$nombre."', A_Paterno = '".$apa."', A_Materno = '".$ama."', CURP = '".$curp."', RFC = '".$rfc."', Genero =  '".$genero."', Fecha_Nac = '".$fechaNac."', Edad = '".$edad."', Calle_Num = '".$dom."', Colonia = '".$col."', Id_Municipio = '".$mun."', Id_Estado = '".$edo."', Id_Segmento = '".$segmento."', Escuela= '".$est."' WHERE Id_Joven = '".$joven."'") )
+ 			$date=date('Y-m-d H:i:s');
+ 			if( mysql_query("UPDATE detalle_joven SET Nombre = '".trim(strtoupper($nombre))."', A_Paterno = '".trim(strtoupper($apa))."', A_Materno = '".trim(strtoupper($ama))."', CURP = '".trim(strtoupper($curp))."', RFC = '".trim(strtoupper($rfc))."', Genero =  '".$genero."', Fecha_Nac = '".$fechaNac."', Edad = '".$edad."', Calle_Num = '".trim(strtoupper($dom))."', Colonia = '".trim(strtoupper($col))."', Id_Municipio = '".$mun."', Id_Estado = '".$edo."', Id_Segmento = '".$segmento."', FechaM='".$date."', Escuela= '".$est."' WHERE Id_Joven = '".$joven."'") )
  			{
  				if( mysql_query('UPDATE datos_contacto SET Tel_Fijo = "'.$tel.'", Tel_Cel = "'.$telcel.'", E_mail = "'.$email.'"  WHERE Id_Persona = "'.$joven.'"'))
  				{

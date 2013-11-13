@@ -375,6 +375,18 @@ LOG;
                                 <input type="radio" name="est" id="no" value="0" />No
                             </div>
                         </div>
+
+                        <div class="rowElem">
+                            <div class="rowLabel"><label for="edo">Municipio Escuela:</label></div>
+                            <div class="rowInput">
+                                <select id="mun-esc">
+                            </select></div>
+                        </div>
+                        <div class="rowElem">
+                            <div class="rowLabel"><label for="mun-edo">Escuela/Institución:</label></div>
+                            <div class="rowInput"><select id="esc-ins-edo"></select>
+                            </div>
+                        </div>
                         <div class="rowElem">
                           <div class="rowInput">
                             <input type="submit" id="save" value="Guardar Joven" /></div>
@@ -542,7 +554,6 @@ LOG;
                         </div> 
                 </div>
             </div>
-            
             <div id="catalogos-page" class="page-wrap-evn">
                 <div id="cat-nav" class="nav">
                     <ul id="cat-menu">
