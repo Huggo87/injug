@@ -25,7 +25,7 @@ function inicio()
 		showCurrentAtPos: 0,
 		yearRange: "-90:+0",
 		showOn: 'both',
-     	buttonImage: 'images/calendar1.png',
+     	buttonImage: '../images/calendar1.png',
 		onSelect: function(dateText, inst) { 
 		      //var dateAsString = dateText; //the first parameter of this function
 		      var dateAsObject = $(this).datepicker( 'getDate' ); //the getDate method
@@ -60,51 +60,59 @@ function inicio()
 	}});
 	$.datepicker.setDefaults($.datepicker.regional['es']);
 	var young = getUrlVars()["young"];
+	$('#escuela').hide();
 	// console.log(young);
 	$.ajax({
-			type:"POST",
-			url:"test.php",
-			data:'caso=' + '28'+'&joven='+young,
-			success:function(young)
-			{
-				//$("#page-datail").append(young);
-				//console.log(young);
-				var datos = young.split('|');
-				segmento(datos[12]);
-				edo(datos[10]);
-				edo_mun(datos[10],datos[9]);
-				$('#nom').val(datos[0]);$('#ap').val(datos[1]);$('#am').val(datos[2]);
-				$('#datepicker4').val(datos[6]);
-				$('#cp').val(datos[11]); 
-				$('#curp').val(datos[3]);$('#rfc').val(datos[4]);$('#calle').val(datos[7]);$('#col').val(datos[8]);
-				$('#tel').val(datos[14]+datos[15]);$('#tel-cel').val(datos[16]+datos[17]);
-				$('#email').val(datos[18]);$('input[name="est"]:checked').val(datos[13]);
+		type:"POST",
+		url:"../test.php",
+		data:'caso=' + '28'+'&joven='+young,
+		success:function(young)
+		{
+			//$("#page-datail").append(young);
+			//console.log(young);
+			var datos = young.split('|');
+			segmento(datos[12]);
+			edo(datos[10]);
+			edo_mun(datos[10],datos[9]);
+			mun_esc(datos[19]);
+			nivel(datos[20]);
+			esceula(datos[19],datos[20],datos[21]);
+			console.log(datos[19] + ' '+datos[20]+' '+datos[21]);
+			$('#nom').val(datos[0]);$('#ap').val(datos[1]);$('#am').val(datos[2]);
+			$('#datepicker4').val(datos[6]);
+			$('#cp').val(datos[11]); 
+			$('#curp').val(datos[3]);$('#rfc').val(datos[4]);$('#calle').val(datos[7]);$('#col').val(datos[8]);
+			$('#tel').val(datos[14]+datos[15]);$('#tel-cel').val(datos[16]+datos[17]);
+			$('#email').val(datos[18]);$('input[name="est"]:checked').val(datos[13]);
 
-				if(datos[5]== 'M')
-				{
-					$('#h').attr('checked',true);
-				}
-				else if(datos[5]== 'F')
-				{
-					$('#m').attr('checked',true);
-				}
-
-				if(datos[13]==1)
-				{
-					$('#si').attr('checked',true);
-				}
-				else if(datos[13]==0)
-				{
-					$('#no').attr('checked',true);
-				}
-				//console.log($("#edo option[value="+datos[10]+"]").attr("selected",true));
-				//console.log(datos[10]);
-			},
-			error:function(young)
+			if(datos[5]== 'M')
 			{
-				//$("#usr-rol-input").html(mun);
-				console.log(young);
+				$('#h').attr('checked',true);
 			}
+			else if(datos[5]== 'F')
+			{
+				$('#m').attr('checked',true);
+			}
+
+			if(datos[13]==1)
+			{
+				$('#si').attr('checked',true);
+				//mun_esc(datos[19]);
+				$('#escuela').show();
+			}
+			else if(datos[13]==0)
+			{
+				$('#no').attr('checked',true);
+				$('#escuela').hide();
+			}
+			//console.log($("#edo option[value="+datos[10]+"]").attr("selected",true));
+			//console.log(datos[10]);
+		},
+		error:function(young)
+		{
+			//$("#usr-rol-input").html(mun);
+			console.log(young);
+		}
 	});
 	eventos(young);
 	$('#page-datail').on('click', 'input[type="submit"]', saveYoun);
@@ -119,7 +127,7 @@ function segmento(seg)
 		type: "POST",
 		dataType:  "html",
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-		url: "test.php",
+		url: "../test.php",
 		data: 'caso=' + '10' +'&seg='+seg,//+ '&login_userpass=' + $('#password').val(),
 		//beforeSend: funcion,
 		
@@ -142,7 +150,7 @@ function edo_mun(estado,mun){
 			type: "POST",
 			dataType:  "html",
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			url: "test.php",
+			url: "../test.php",
 			data: 'caso=' + '38' +'&estado=' + estado +'&mun='+mun,//+ '&login_userpass=' + $('#password').val(),
 			//beforeSend: funcion,		
 			success:function(muns){
@@ -156,6 +164,66 @@ function edo_mun(estado,mun){
 		});
 	}	
 }
+function mun_esc(mun)
+{
+	$.ajax({
+			async: true,
+			type: "POST",
+			dataType:  "html",
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			url: "../test.php",
+			data: 'caso=' + '38' +'&estado=' + 1 +'&mun='+mun,
+			//beforeSend: funcion,		
+			success:function(muns){
+				$("#mun-esc").html(muns);
+				console.log(muns);
+			},
+			//timeout: 4000,
+			error: function(muns){
+				console.log(muns);
+			}
+		});
+}
+function nivel(nivel)
+{
+	$.ajax({
+			async: true,
+			type: "POST",
+			dataType:  "html",
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			url: "../test.php",
+			data: 'caso=' + '69' +'&nivel='+nivel,
+			//beforeSend: funcion,		
+			success:function(nivel){
+				$("#nivel").html(nivel);
+				console.log(nivel);
+			},
+			//timeout: 4000,
+			error: function(nivel){
+				console.log(nivel);
+			}
+		});
+}
+function esceula(mun, nivel, esc)
+{
+	$.ajax({
+			async: true,
+			type: "POST",
+			dataType:  "html",
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			url: "../test.php",
+			data: 'caso=' + '70' +'&mun='+mun+'&nivel='+nivel+'&esc='+esc,
+			//beforeSend: funcion,		
+			success:function(esc){
+				$("#esc-ins").html(esc);
+				console.log(esc);
+			},
+			//timeout: 4000,
+			error: function(esc){
+				console.log(esc);
+			}
+		});
+}
 function edo(estado)
 {
 	//console.log(estado);
@@ -164,7 +232,7 @@ function edo(estado)
 		type: "POST",
 		dataType:  "html",
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-		url: "test.php",
+		url: "../test.php",
 		data: 'caso='+'37'+'&edo='+estado,//+ '&login_userpass=' + $('#password').val(),
 		//beforeSend: funcion,
 		
@@ -181,7 +249,7 @@ function edo(estado)
 function eventos(young){
 	$.ajax({
 			type:"POST",
-			url:"test.php",
+			url:"../test.php",
 			data:'caso=' + '40'+'&joven='+young,
 			success:function(young)
 			{
@@ -203,18 +271,19 @@ function getUrlVars() {
 }
 function saveYoun()
 {
+	console.log($('#mun-esc').val()+$("#esc-ins").val());
 	var young = getUrlVars()["young"];
 	// console.log($('#nom').val()+ young);
 	$("#noti").html('');
 	$.ajax({
 			type:"POST",
-			url:"test.php",
-			data:'caso=' + '29'+'&joven='+young + '&nombre='+$('#nom').val()+ '&ap='+$('#ap').val()+ '&am='+$('#am').val()+ '&genero='+$('input[name="genero"]:checked').val()+'&seg='+$('#seg').val()+ '&fechaNac='+$('#datepicker4').val()+ '&edo='+$('#edo').val()+'&mun='+$('#mun-edo').val()+'&curp='+$('#curp').val()+'&rfc='+$('#rfc').val()+'&dom='+$('#calle').val()+'&col='+$('#col').val()+'&telfijo='+$('#tel').val()+'&telcel='+$('#tel-cel').val()+'&email='+$('#email').val()+'&est='+$('input[name="est"]:checked').val(),
+			url:"../test.php",
+			data:'caso=' + '29'+'&joven='+young + '&nombre='+$('#nom').val()+ '&ap='+$('#ap').val()+ '&am='+$('#am').val()+ '&genero='+$('input[name="genero"]:checked').val()+'&seg='+$('#seg').val()+ '&fechaNac='+$('#datepicker4').val()+ '&edo='+$('#edo').val()+'&mun='+$('#mun-edo').val()+'&curp='+$('#curp').val()+'&rfc='+$('#rfc').val()+'&dom='+$('#calle').val()+'&col='+$('#col').val()+'&telfijo='+$('#tel').val()+'&telcel='+$('#tel-cel').val()+'&email='+$('#email').val()+'&est='+$('input[name="est"]:checked').val()+'&munesc='+$('#mun-esc').val()+'&esc-ins='+$("#esc-ins").val(),
 			success:function(update)
 			{
 				//console.log(update);
 				$("#noti").html('Se ha actualizado correctamente el joven :)');
-				//console.log(young)
+				console.log(update)
 				
 			},
 			error:function(update)
@@ -243,7 +312,7 @@ function delete_event(datos)
         "Eliminar": function() {  
         $.ajax({
 			type:"POST",
-			url:"test.php",
+			url:"../test.php",
 			data:'caso=' + '30'+ '&evento='+id + '&no_control='+dato,
 			success:function(evento)
 			{
@@ -275,7 +344,6 @@ function delete_event(datos)
         }
       }
     });
-	
 }
 function validarEmail(email) {
     if (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.([a-zA-Z]{2,4})+$/.test(email))
@@ -287,3 +355,67 @@ function validarEmail(email) {
         return (false);
     }
 }
+
+$( 'input[name="est"]' ).on( "click", function() {
+	if($('input[name="est"]:checked').val()=='1')
+	{
+		//mun_esc(0);
+		$("#escuela").slideDown();
+		//activate = true;
+	}
+	else
+	{
+		$("#escuela").slideUp();
+		//activate = false;
+		//$("#escuela select").val('');
+		
+	}
+
+  //console.log($('input[name="est"]:checked').val()+activate);
+});
+$('#nivel').change(function(){
+	if($('#nivel').find(':selected').val() != '0')
+	{
+		//alert($('#edo').find(':selected').val());
+		$.ajax({
+			async: true,
+			type: "POST",
+			dataType:  "html",
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			url: "../test.php",
+			data: 'caso=' + '68' +'&mun=' + $('#mun-esc').val()+ '&nivel=' + $('#nivel').val(),
+				
+			success:function(esc){
+				$("#esc-ins").html(esc);
+				console.log(esc);
+			},
+			//timeout: 4000,
+			error: function(esc){
+				console.log(esc);
+			}
+		});
+	}	
+});
+$('#mun-esc').change(function(){
+	if($('#mun-esc').find(':selected').val() != '0')
+	{
+		//alert($('#edo').find(':selected').val());
+		$.ajax({
+			async: true,
+			type: "POST",
+			dataType:  "html",
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			url: "../test.php",
+			data: 'caso=' + '68' +'&mun=' + $('#mun-esc').val()+ '&nivel=' + $('#nivel').val(),
+				
+			success:function(esc){
+				$("#esc-ins").html(esc);
+				console.log(esc);
+			},
+			//timeout: 4000,
+			error: function(esc){
+				console.log(esc);
+			}
+		});
+	}	
+});

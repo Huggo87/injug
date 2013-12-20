@@ -6,7 +6,7 @@ function inicio()
 	var young = getUrlVars()["young"];
 	$.ajax({
 			type:"POST",
-			url:"test.php",
+			url:"../test.php",
 			data:'caso=' + '27'+'&joven='+young,
 			success:function(young)
 			{

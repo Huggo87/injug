@@ -35,7 +35,15 @@ class Joven
  	{
  		if($this->con->conectar())
  		{
- 			return mysql_query("SELECT detalle_joven.Id_Joven, detalle_joven.Nombre, detalle_joven.A_Paterno,detalle_joven.A_Materno,detalle_joven.CURP,detalle_joven.RFC,detalle_joven.Genero,detalle_joven.Fecha_Nac,detalle_joven.Calle_Num,detalle_joven.Colonia,detalle_joven.Id_Municipio,detalle_joven.Id_Estado,detalle_joven.CP,detalle_joven.Id_Segmento,detalle_joven.Escuela,datos_contacto.Lada_Fijo, datos_contacto.Tel_Fijo, datos_contacto.Lada_Cel, datos_contacto.Tel_Cel,datos_contacto.E_mail FROM detalle_joven INNER JOIN datos_contacto ON detalle_joven.Id_Joven = datos_contacto.Id_Persona WHERE detalle_joven.Id_Joven= '".$id."' LIMIT 1");
+ 			$query = mysql_query("SELECT detalle_joven.Id_Joven, detalle_joven.Nombre, detalle_joven.A_Paterno,detalle_joven.A_Materno,detalle_joven.CURP,detalle_joven.RFC,detalle_joven.Genero,detalle_joven.Fecha_Nac,detalle_joven.Calle_Num,detalle_joven.Colonia,detalle_joven.Id_Municipio,detalle_joven.Id_Estado,detalle_joven.CP,detalle_joven.Id_Segmento,detalle_joven.Escuela,datos_contacto.Lada_Fijo, datos_contacto.Tel_Fijo, datos_contacto.Lada_Cel, datos_contacto.Tel_Cel,datos_contacto.E_mail,cat_institucion.Id_Municipio,cat_institucion.Nivel_2,cat_institucion.Id_Instituto FROM detalle_joven INNER JOIN datos_contacto ON detalle_joven.Id_Joven = datos_contacto.Id_Persona 
+ 				INNER JOIN cat_institucion ON datos_contacto.Id_Institucion = cat_institucion.Id_Instituto WHERE detalle_joven.Id_Joven= '".$id."' LIMIT 1");
+ 			if(!mysql_fetch_array($query))
+ 			{
+ 				return mysql_query("SELECT detalle_joven.Id_Joven, detalle_joven.Nombre, detalle_joven.A_Paterno,detalle_joven.A_Materno,detalle_joven.CURP,detalle_joven.RFC,detalle_joven.Genero,detalle_joven.Fecha_Nac,detalle_joven.Calle_Num,detalle_joven.Colonia,detalle_joven.Id_Municipio,detalle_joven.Id_Estado,detalle_joven.CP,detalle_joven.Id_Segmento,detalle_joven.Escuela,datos_contacto.Lada_Fijo, datos_contacto.Tel_Fijo, datos_contacto.Lada_Cel, datos_contacto.Tel_Cel,datos_contacto.E_mail FROM detalle_joven INNER JOIN datos_contacto ON detalle_joven.Id_Joven = datos_contacto.Id_Persona WHERE detalle_joven.Id_Joven= '".$id."' LIMIT 1");
+ 			}
+ 			else
+ 				return mysql_query("SELECT detalle_joven.Id_Joven, detalle_joven.Nombre, detalle_joven.A_Paterno,detalle_joven.A_Materno,detalle_joven.CURP,detalle_joven.RFC,detalle_joven.Genero,detalle_joven.Fecha_Nac,detalle_joven.Calle_Num,detalle_joven.Colonia,detalle_joven.Id_Municipio,detalle_joven.Id_Estado,detalle_joven.CP,detalle_joven.Id_Segmento,detalle_joven.Escuela,datos_contacto.Lada_Fijo, datos_contacto.Tel_Fijo, datos_contacto.Lada_Cel, datos_contacto.Tel_Cel,datos_contacto.E_mail,cat_institucion.Id_Municipio,cat_institucion.Nivel_2,cat_institucion.Id_Instituto FROM detalle_joven INNER JOIN datos_contacto ON detalle_joven.Id_Joven = datos_contacto.Id_Persona 
+ 				INNER JOIN cat_institucion ON datos_contacto.Id_Institucion = cat_institucion.Id_Instituto WHERE detalle_joven.Id_Joven= '".$id."' LIMIT 1");;
 
  			//return mysql_query("SELECT detalle_joven.Id_Joven, detalle_joven.Nombre, detalle_joven.A_Paterno,detalle_joven.A_Materno,detalle_joven.CURP,detalle_joven.RFC,detalle_joven.Genero,detalle_joven.Fecha_Nac,detalle_joven.Calle_Num,detalle_joven.Colonia,detalle_joven.Id_Municipio,detalle_joven.Id_Estado,detalle_joven.CP,detalle_joven.Id_Segmento,detalle_joven.Escuela,datos_contacto.Lada_Fijo, datos_contacto.Tel_Fijo, datos_contacto.Lada_Cel, datos_contacto.Tel_Cel,datos_contacto.E_mail FROM detalle_joven INNER JOIN datos_contacto WHERE detalle_joven.Id_Joven= '".$id."' LIMIT 1");
 
@@ -207,7 +215,7 @@ class Joven
  		}
  		$this->con->cerrar_conexion();
  	}
- 	function registrar_Joven( $nombre, $apa, $ama, $genero, $segmento, $fechaNac, $edo, $mun, $curp, $rfc, $dom, $col, $tel, $telcel, $email, $est, $cat_ev, $fechaEv, $obs, $evento, $place, $sector)
+ 	function registrar_Joven( $nombre, $apa, $ama, $genero, $segmento, $fechaNac, $edo, $mun, $curp, $rfc, $dom, $col, $tel, $telcel, $email, $est, $escmun, $escins, $cat_ev, $fechaEv, $obs, $evento, $place, $sector)
  	{
  		$dateV = $this->validarFecha($fechaEv);
  		$date=date('Y-m-d H:i:s');
@@ -233,11 +241,11 @@ class Joven
  		//si en joven no existe en la tabla 
  		else
  		{
- 			 return $this->registro_Joven($nombre, $apa, $ama, $genero, $segmento, $fechaNac, $edo, $mun, $curp, $rfc, $dom, $col, $tel, $telcel, $email, $est, $cat_ev, $fechaEv, $obs, $evento, $place, $sector, $date, $dateV);
+ 			 return $this->registro_Joven($nombre, $apa, $ama, $genero, $segmento, $fechaNac, $edo, $mun, $curp, $rfc, $dom, $col, $tel, $telcel, $email, $est, $escmun, $escins, $cat_ev, $fechaEv, $obs, $evento, $place, $sector, $date, $dateV);
  		}
  		$this->con->cerrar_conexion();
  	}
- 	function registro_Joven($nombre, $apa, $ama, $genero, $segmento, $fechaNac, $edo, $mun, $curp, $rfc, $dom, $col, $tel, $telcel, $email, $est, $cat_ev, $fechaEv, $obs, $evento, $place, $sector, $date, $dateV)
+ 	function registro_Joven($nombre, $apa, $ama, $genero, $segmento, $fechaNac, $edo, $mun, $curp, $rfc, $dom, $col, $tel, $telcel, $email, $est, $escmun, $escins, $cat_ev, $fechaEv, $obs, $evento, $place, $sector, $date, $dateV)
  	{
  		if($this->con->conectar())
  		{
@@ -251,7 +259,7 @@ class Joven
 				$rowE = mysql_fetch_array($resultd);
 
 				//Guardar DAtos  de contacto al joven
-			   if(mysql_query("INSERT INTO datos_contacto (Id_Persona,Tel_Fijo,Tel_Cel,E_mail,No_control) VALUES ('".$rowE[0]."','".$tel."','".$telcel."','".strtolower($email)."','".$evento."')"))
+			   if(mysql_query("INSERT INTO datos_contacto (Id_Persona,Tel_Fijo,Tel_Cel,E_mail,Id_Municipio,Id_Institucion,No_control) VALUES ('".$rowE[0]."','".$tel."','".$telcel."','".strtolower($email)."',".$escmun.",".$escins.",'".$evento."')"))
 			   {
 				   //Guardar Evento al joven
 		 		   if(mysql_query("INSERT INTO asist_eventos (Cat_Ev,Id_Joven,Fecha_Part,Observaciones,Edad,No_control,Lugar,Sector,ouTime,FechaCap) VALUES('".$cat_ev."','".$rowE[0]."','".$fechaEv."','".strtoupper($obs)."','".$edad."','".$evento."','".strtoupper($place)."','".$sector."','".$dateV."','".$date."')"))
@@ -640,7 +648,7 @@ class Joven
  		}
  		$this->con->cerrar_conexion();
  	}
- 	function update_joven($joven, $nombre, $apa, $ama, $genero, $segmento, $fechaNac, $edo, $mun, $curp, $rfc, $dom, $col, $tel, $telcel, $email, $est )
+ 	function update_joven($joven, $nombre, $apa, $ama, $genero, $segmento, $fechaNac, $edo, $mun, $curp, $rfc, $dom, $col, $tel, $telcel, $email, $est, $munesc, $escins )
  	{
  		if($this->con->conectar())
  		{
@@ -648,7 +656,7 @@ class Joven
  			$date=date('Y-m-d H:i:s');
  			if( mysql_query("UPDATE detalle_joven SET Nombre = '".trim(strtoupper($nombre))."', A_Paterno = '".trim(strtoupper($apa))."', A_Materno = '".trim(strtoupper($ama))."', CURP = '".trim(strtoupper($curp))."', RFC = '".trim(strtoupper($rfc))."', Genero =  '".$genero."', Fecha_Nac = '".$fechaNac."', Edad = '".$edad."', Calle_Num = '".trim(strtoupper($dom))."', Colonia = '".trim(strtoupper($col))."', Id_Municipio = '".$mun."', Id_Estado = '".$edo."', Id_Segmento = '".$segmento."', FechaM='".$date."', Escuela= '".$est."' WHERE Id_Joven = '".$joven."'") )
  			{
- 				if( mysql_query('UPDATE datos_contacto SET Tel_Fijo = "'.$tel.'", Tel_Cel = "'.$telcel.'", E_mail = "'.$email.'"  WHERE Id_Persona = "'.$joven.'"'))
+ 				if( mysql_query('UPDATE datos_contacto SET Tel_Fijo = "'.$tel.'", Tel_Cel = "'.$telcel.'", E_mail = "'.$email.'", Id_Municipio='.$munesc.',Id_Institucion='.$escins.' WHERE Id_Persona = "'.$joven.'"'))
  				{
  					return true;
  				}
@@ -827,6 +835,40 @@ class Joven
  		}
  		$this->con->cerrar_conexion();
  	}
+
+ 	//Obtener nivel para select
+ 	function get_nivel()
+ 	{
+ 		if($this->con->conectar())
+ 		{
+ 			return mysql_query('SELECT Id_nivel, Nivel FROM cat_nivel');
+ 		}
+ 		$this->con->cerrar_conexion();
+ 	}
+ 	function get_nivel_id($id)
+ 	{
+ 		return mysql_query('SELECT Id_nivel, Nivel FROM cat_nivel WHERE Id_nivel='.$id.'');
+ 	}
+ 	//obtener escuelas
+ 	function get_esc_by_mun_nivel($mun, $nivel)
+ 	{
+ 		if($this->con->conectar())
+ 		{
+ 			return mysql_query('SELECT Id_Instituto, Nombre FROM cat_institucion WHERE Id_Municipio='.$mun.' AND Nivel_2='.$nivel.' ORDER BY Nombre');
+ 		}
+ 		$this->con->cerrar_conexion();
+ 	}
+ 	function get_esc_by_mun_nivel_id( $id)
+ 	{
+ 		if($this->con->conectar())
+ 		{
+ 			return mysql_query('SELECT Id_Instituto, Nombre FROM cat_institucion WHERE Id_Instituto='.$id.' ORDER BY Nombre');
+ 		}
+ 		$this->con->cerrar_conexion();
+ 	}
+ 	
+
+
 
  }
 

@@ -60,7 +60,7 @@ function inicio()
 	// console.log(user);
 	$.ajax({
 			type:"POST",
-			url:"test.php",
+			url:"../test.php",
 			data:'caso=' + '33'+'&user='+user,
 			success:function(user)
 			{
@@ -94,7 +94,7 @@ function update_user()
 	$("#noti").html('');
 	$.ajax({
 			type:"POST",
-			url:"test.php",
+			url:"../test.php",
 			data:'caso=' + '34'+'&user='+user+ '&res='+$('#res-user-up').val()+ '&username='+$('#nomuser-user-up').val()+ '&nombre='+$('#nom-user-up').val()+ '&ap='+$('#ap-user-up').val()+ '&am='+$('#am-user-up').val()+ '&genero='+$('input[name="genero-user-up"]:checked').val()+'&rol='+$('#rol-user-up').val()+ '&fechaNac='+$('#datepicker5').val()+ '&edo='+$('#edo-user-up').val()+'&mun='+$('#mun-user-up').val()+'&dom='+$('#calle-user-up').val()+'&col='+$('#col-user-up').val()+ '&cp='+$('#cp-user-up').val() +'&telfijo='+$('#tel-user-up').val()+'&telcel='+$('#tel-cel-user-up').val()+'&email='+$('#email-user-up').val(),
 			success:function(update)
 			{
@@ -123,7 +123,7 @@ function update_password()
 		{
 			$.ajax({
 				type:"POST",
-				url:"test.php",
+				url:"../test.php",
 				data:'caso=' + '35'+'&user='+user+ '&pass='+$('#pass-user-up').val(),
 				success:function(update)
 				{

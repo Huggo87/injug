@@ -10,7 +10,9 @@ function inicio()
 	responsable();
 	municipio();
 	edo();
-	segmento();var anio = new Date();
+	segmento();
+
+	var anio = new Date();
 	$("#datepicker").datepicker({			//autoSize: true,
 		changeMonth: true,
 		closeText: 'Cerrar',
@@ -259,6 +261,9 @@ function inicio()
 	$('#cat-seg').on('click', 'a', eliminiar_seg);
 	$('#cat-tal').on('click', 'a', eliminiar_tal);
 	$('#cat-rol').on('click', 'a', eliminiar_rol);
+	$("#escuela").hide();
+	var activate = false;
+	console.log(activate);
 }
 function eliminiar_edo(estado)
 {
@@ -924,8 +929,26 @@ function guardarJoven()
 							{
 								if( $('input[name="est"]:checked').val() != null )
 								{
-									//alert('Todo bien');
-									enviarDatosJovenEvento();
+									console.log('checando bandera '+ activate);
+									if(activate)
+									{
+										console.log('OUT');
+										if( $('#mun-esc').val()!='0' || $('#nivel').val()!='0' || $('#esc-ins').val()!='0' )
+										{
+											console.log('IN');
+											enviarDatosJovenEvento();
+										}
+										else
+										{
+											alert('Debes seleccionar datos completos de la escuela (Municipio, Nivel y Escuela)');
+										}
+									}
+									else
+									{
+										console.log('LOL');
+										enviarDatosJovenEvento();
+
+									}	
 								}
 								else
 								{
@@ -941,8 +964,26 @@ function guardarJoven()
 						{
 							if( $('input[name="est"]:checked').val() != null )
 							{
-								//alert('Todo bien');
-								enviarDatosJovenEvento();
+								console.log('checando bandera '+ activate);
+								if(activate)
+								{
+									
+									if( $('#mun-esc').val()!='0' && $('#nivel').val()!='0' && $('#esc-ins').val()!='0' )
+									{
+										
+										enviarDatosJovenEvento();
+									}
+									else
+									{
+										alert('Debes seleccionar datos completos de la escuela (Municipio, Nivel y Escuela)');
+									}
+								}
+								else
+								{
+									console.log('LOL');
+									enviarDatosJovenEvento();
+
+								}	
 							}
 							else
 							{
@@ -984,7 +1025,7 @@ function enviarDatosJovenEvento()
 			dataType:  "html",
 			url: "test.php",
 			//textHtml: true,
-			data: 'caso='+'4'+'&nombre='+$('#nom').val()+'&apa='+$('#ap').val()+'&ama='+$('#am').val()+'&genero='+$('input[name="genero"]:checked').val()+'&segmento='+$('#seg').val()+'&fechaNac='+$('#datepicker1').val()+'&edo='+$('#edo').val()+'&mun='+$('#mun-edo').val()+'&curp='+$('#curp').val()+'&rfc='+$('#rfc').val()+'&dom='+$('#calle').val()+'&col='+$('#col').val()+'&telfijo='+$('#tel').val()+'&telcel='+$('#tel-cel').val()+'&email='+$('#email').val()+'&est='+$('input[name="est"]:checked').val()  +'&cat_ev='+$('#evnt').val()+'&fechaEv='+$('#datepicker').val()+'&obs='+$('#obs').val()+'&evento='+noControl+'&place='+$('#place').val()+'&sector='+$('input[name="sector"]:checked').val(),
+			data: 'caso='+'4'+'&nombre='+$('#nom').val()+'&apa='+$('#ap').val()+'&ama='+$('#am').val()+'&genero='+$('input[name="genero"]:checked').val()+'&segmento='+$('#seg').val()+'&fechaNac='+$('#datepicker1').val()+'&edo='+$('#edo').val()+'&mun='+$('#mun-edo').val()+'&curp='+$('#curp').val()+'&rfc='+$('#rfc').val()+'&dom='+$('#calle').val()+'&col='+$('#col').val()+'&telfijo='+$('#tel').val()+'&telcel='+$('#tel-cel').val()+'&email='+$('#email').val()+'&est='+$('input[name="est"]:checked').val()+'&munesc='+$('#mun-esc').val()+'&esc-ins='+$("#esc-ins").val()+'&cat_ev='+$('#evnt').val()+'&fechaEv='+$('#datepicker').val()+'&obs='+$('#obs').val()+'&evento='+noControl+'&place='+$('#place').val()+'&sector='+$('input[name="sector"]:checked').val(),
 			//beforeSend: funcion,
 			
 			success:function(datos){
@@ -1014,9 +1055,10 @@ function enviarDatosJovenEvento()
 				}
 
 				
-				$(".clear-jov input:text input:email").val('');
+				$(".clear-jov input:text").val('');
 				$(".clear-jov input:radio").attr("checked", false);
 				$(".clear-jov select").val('');
+				$("#escuela").hide();
 				//console.log(user);
 			},
 			//timeout: 4000,
@@ -1238,6 +1280,7 @@ function municipio()
 		success:function(mun){
 			$("#mun").append(mun);
 			$("#mun-bus").append(mun);
+			$('#mun-esc').append(mun);
 			//console.log(mun);
 		},
 		//timeout: 4000,
@@ -1297,7 +1340,8 @@ function menuOption(dato)
 		var datos= $('#'+ boton + '-page').show();
 		$('#busquedas-page').hide();
 		$('#catalogos-page').hide();
-		$('#usuarios-page').hide();		
+		$('#usuarios-page').hide();
+		nivel();	
 	}
 	else if(boton == 'catalogos')
 	{
@@ -1671,4 +1715,86 @@ function evento_programa()
 		}
 	});
 }
+function nivel()
+{
+	$.ajax({
+			type:"POST",
+			url:"test.php",
+			data:'caso=' + '67',//+'&screen=' + $(this).attr("data")+ '&nom=' + $('#search-name').val() + '&apa=' + $('#search-ap').val() + '&ama='+ $('#search-am').val(),
+			success:function(nivel)
+			{
+				$("#nivel").html(nivel);
+				//console.log(nivel)
+			},
+			error:function(nivel)
+			{
+				$("#nivel").html(nivel);
+				console.log(nivel)
+			}
+	});
+}
+$('#nivel').change(function(){
+	if($('#nivel').find(':selected').val() != '0')
+	{
+		//alert($('#edo').find(':selected').val());
+		$.ajax({
+			async: true,
+			type: "POST",
+			dataType:  "html",
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			url: "test.php",
+			data: 'caso=' + '68' +'&mun=' + $('#mun-esc').val()+ '&nivel=' + $('#nivel').val(),
+				
+			success:function(esc){
+				$("#esc-ins").html(esc);
+				console.log(esc);
+			},
+			//timeout: 4000,
+			error: function(esc){
+				console.log(esc);
+			}
+		});
+	}	
+});
+$('#mun-esc').change(function(){
+	if($('#mun-esc').find(':selected').val() != '0')
+	{
+		//alert($('#edo').find(':selected').val());
+		$.ajax({
+			async: true,
+			type: "POST",
+			dataType:  "html",
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			url: "test.php",
+			data: 'caso=' + '68' +'&mun=' + $('#mun-esc').val()+ '&nivel=' + $('#nivel').val(),
+				
+			success:function(esc){
+				$("#esc-ins").html(esc);
+				console.log(esc);
+			},
+			//timeout: 4000,
+			error: function(esc){
+				console.log(esc);
+			}
+		});
+	}	
+});
+
+$( 'input[name="est"]' ).on( "click", function() {
+	if($('input[name="est"]:checked').val()=='1')
+	{
+		$("#escuela").slideDown();
+		activate = true;
+	}
+	else
+	{
+		$("#escuela").slideUp();
+		activate = false;
+		//$("#escuela select").val('');
+		
+	}
+
+  console.log($('input[name="est"]:checked').val()+activate);
+});
+
 

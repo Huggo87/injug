@@ -6,7 +6,7 @@ function inicio()
 	var user = getUrlVars()["user"];
 	$.ajax({
 			type:"POST",
-			url:"test.php",
+			url:"../test.php",
 			data:'caso=' + '32'+'&user='+user,
 			success:function(user)
 			{
@@ -17,7 +17,7 @@ function inicio()
 			error:function(user)
 			{
 				//$("#usr-rol-input").html(mun);
-				console.log(user)
+				console.log(user);
 				
 			}
 	});

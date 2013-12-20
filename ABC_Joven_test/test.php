@@ -67,7 +67,7 @@ switch ($_POST['caso'])
             echo 'La actividad no puede ser capturada, mes se ha cerrado para la captura';
         }
         else{
-    		$cons = $objJoven->registrar_Joven( $_POST['nombre'], $_POST['apa'], $_POST['ama'], $_POST['genero'], $_POST['segmento'], $_POST['fechaNac'], $_POST['edo'], $_POST['mun'], $_POST['curp'], $_POST['rfc'], $_POST['dom'], $_POST['col'], $_POST['telfijo'], $_POST['telcel'], $_POST['email'], $_POST['est'], $_POST['cat_ev'], $_POST['fechaEv'], $_POST['obs'], $_POST['evento'], $_POST['place'], $_POST['sector'] );
+    		$cons = $objJoven->registrar_Joven( $_POST['nombre'], $_POST['apa'], $_POST['ama'], $_POST['genero'], $_POST['segmento'], $_POST['fechaNac'], $_POST['edo'], $_POST['mun'], $_POST['curp'], $_POST['rfc'], $_POST['dom'], $_POST['col'], $_POST['telfijo'], $_POST['telcel'], $_POST['email'], $_POST['est'], $_POST['munesc'], $_POST['esc-ins'], $_POST['cat_ev'], $_POST['fechaEv'], $_POST['obs'], $_POST['evento'], $_POST['place'], $_POST['sector'] );
     		if($cons == '1')
     		{
     			echo '1';
@@ -108,6 +108,7 @@ switch ($_POST['caso'])
         exit;
     case '8'://Consulta municipios de GTO
      	$cons = $objJoven->consulta_mun();
+         echo '<option value="0">[ Selecciona Municipio ]</option>';
      	while ($mun= mysql_fetch_array($cons)) {
      		echo '<option value='.$mun[0].'>'.$mun[1].'</option>';
      	}
@@ -129,7 +130,7 @@ switch ($_POST['caso'])
         $cons = $objJoven->consulta_usuario();
         echo '<div class="header-find searc-user">ID</div>'.'<div class="header-find searc-user">USUARIO</div>'.'<div class="header-find searc-user">ROL</div>'.'<div class="header-find searc-user">DETALLE</div>'.'<div class="header-find searc-user">MODIFICAR</div>'.'<div class="header-find searc-user">ELIMINAR</div>';
         while ($user = mysql_fetch_array($cons)) {
-             echo '<div class="searc-user">'.$user[0].'</div><div class="searc-user">'.$user[1].'</div><div class="searc-user">'.$user[2].'</div>'.'<div class="searc-user"><a class="detail" href="detalle-user.html?user='.$user[0].'" target="_blank"  >Detalles</a></div><div class="searc-user"><a class="detail" href="modificar-user.html?user='.$user[0].'" target="_blank"  >Modificar</a></div><div class="searc-user"><a class="detail" href="#" id="'.$user[0].'" name="Eliminar">Eliminar</a></div>';//<div>'.$joven[3].'</div><div>'.$joven[4].'</div><div>'.$joven[5].'</div>'<div><a class="detail" href="MetasG/clasificar.php?young='.$joven[0].'" target="_blank" >Clasificar</a></div>';
+             echo '<div class="searc-user">'.$user[0].'</div><div class="searc-user">'.$user[1].'</div><div class="searc-user">'.$user[2].'</div>'.'<div class="searc-user"><a class="detail" href="templates/detalle-user.html?user='.$user[0].'" target="_blank"  >Detalles</a></div><div class="searc-user"><a class="detail" href="templates/modificar-user.html?user='.$user[0].'" target="_blank"  >Modificar</a></div><div class="searc-user"><a class="detail" href="#" id="'.$user[0].'" name="Eliminar">Eliminar</a></div>';//<div>'.$joven[3].'</div><div>'.$joven[4].'</div><div>'.$joven[5].'</div>'<div><a class="detail" href="MetasG/clasificar.php?young='.$joven[0].'" target="_blank" >Clasificar</a></div>';
         }
         exit;
     case '12'://consulta estados paginacion
@@ -324,14 +325,6 @@ switch ($_POST['caso'])
                     $munjoven = mysql_fetch_array($mun);echo $munjoven[1];echo '"  readonly="readonly"/></div>
                 </div>
                 <div class="rowElem">
-                    <div class="rowLabel"><label for="cp">Codigo Postal*:</label></div>
-                    <div class="rowInput"><input type="text" id="cp" name="req-name"  value="'.$detail[12].'" readonly="readonly" /></div>
-                </div>
-            </div>
-            <div class="page-wrap">
-                <h3>Datos Contacto Joven</h3>
-
-                    <div class="rowElem">
                         <div class="rowLabel"><label for="curp">CURP:</label></div>
                         <div class="rowInput"><input type="text" id="curp" value="'.$detail[4].'"  readonly="readonly"/></div>
                     </div>
@@ -339,6 +332,11 @@ switch ($_POST['caso'])
                         <div class="rowLabel"><label for="rfc">RFC:</label></div>
                         <div class="rowInput"><input type="text" id="rfc" value="'.$detail[5].'"  readonly="readonly"/></div>
                     </div>
+            </div>
+            <div class="page-wrap">
+                <h3>Datos Contacto Joven</h3>
+
+                    
                      <div class="rowElem">
                         <div class="rowLabel"><label for="calle">Calle y numero:</label></div>
                         <div class="rowInput"><input type="text" id="calle" value="'.$detail[8].'"  readonly="readonly"/></div>
@@ -363,10 +361,35 @@ switch ($_POST['caso'])
                         <div class="rowInput"><input type="email" id="email" value="'.$detail[19].'"  readonly="readonly"/></div>
                     </div>
 
+
+
                     <div class="rowElem">
                         <div class="rowLabel"><label for="">El joven estudia actualmete:</label></div>
                         <div class="rowInput"><input type="email" id="email" value="';if($detail[14]==1)
                         {echo "Si";}else{echo "No";} echo'"  readonly="readonly"/></div>
+                    </div>
+
+                    <div id="escuela">
+                            <div class="rowElem">
+                            <div class="rowLabel"><label for="mun-esc">Municipio Escuela:</label></div>
+                            <div class="rowInput">
+                                <input type="text" id="mun-esc" value="';$mun=$objJoven->consulta_mun_by_id($detail[20]);
+                    $munjoven = mysql_fetch_array($mun);echo $munjoven[1];echo '" readonly="readonly"/></div>
+                            </div>
+                            <div class="rowElem">
+                                <div class="rowLabel"><label for="nivel">Nivel</label></div>
+                                <div class="rowInput">
+                                    <input type="text" id="nivel" value="';$mun=$objJoven->get_nivel_id($detail[21]);
+                    $munjoven = mysql_fetch_array($mun);echo $munjoven[1];echo '" readonly="readonly" /></div>
+                            </div>
+                            <div class="rowElem">
+                                <div class="rowLabel"><label for="esc-ins">Escuela/Institución:</label></div>
+                                <div class="rowInput">
+                                <textarea name="" id="" cols="30" rows="10" readonly="readonly">';$mun=$objJoven->get_esc_by_mun_nivel_id($detail[22]);
+                    $munjoven = mysql_fetch_array($mun);echo $munjoven[1];echo '</textarea>
+                                </div>
+                            </div>
+
                     </div>
           
             </div>';
@@ -376,10 +399,10 @@ switch ($_POST['caso'])
     case '28'://Modificar Joven
         $cons = $objJoven->buscarJovenID($_POST['joven']);
         $detail = mysql_fetch_array($cons);
-        echo $detail[1].'|'.$detail[2].'|'.$detail[3].'|'.$detail[4].'|'.$detail[5].'|'.$detail[6].'|'.$detail[7].'|'.$detail[8].'|'.$detail[9].'|'.$detail[10].'|'.$detail[11].'|'.$detail[12].'|'.$detail[13].'|'.$detail[14].'|'.$detail[15].'|'.$detail[16].'|'.$detail[17].'|'.$detail[18].'|'.$detail[19];
+        echo $detail[1].'|'.$detail[2].'|'.$detail[3].'|'.$detail[4].'|'.$detail[5].'|'.$detail[6].'|'.$detail[7].'|'.$detail[8].'|'.$detail[9].'|'.$detail[10].'|'.$detail[11].'|'.$detail[12].'|'.$detail[13].'|'.$detail[14].'|'.$detail[15].'|'.$detail[16].'|'.$detail[17].'|'.$detail[18].'|'.$detail[19].'|'.$detail[20].'|'.$detail[21].'|'.$detail[22];
         exit;
     case '29'://Actualizar Joven
-        $cons = $objJoven->update_joven( $_POST['joven'], $_POST['nombre'], $_POST['ap'], $_POST['am'], $_POST['genero'], $_POST['seg'], $_POST['fechaNac'], $_POST['edo'], $_POST['mun'], $_POST['curp'], $_POST['rfc'], $_POST['dom'], $_POST['col'], $_POST['telfijo'], $_POST['telcel'], $_POST['email'], $_POST['est']);
+        $cons = $objJoven->update_joven( $_POST['joven'], $_POST['nombre'], $_POST['ap'], $_POST['am'], $_POST['genero'], $_POST['seg'], $_POST['fechaNac'], $_POST['edo'], $_POST['mun'], $_POST['curp'], $_POST['rfc'], $_POST['dom'], $_POST['col'], $_POST['telfijo'], $_POST['telcel'], $_POST['email'], $_POST['est'],$_POST['munesc'], $_POST['esc-ins']);
         if ( $cons ) {
             echo 1;
         }
@@ -1040,6 +1063,51 @@ switch ($_POST['caso'])
         else
             echo 'Erorr al eliminar el Rol';
         exit;
+    case '67'://Consulta nivel escolar
+        $cons = $objJoven->get_nivel();
+         echo '<option value="0">[ Selecciona Nivel ]</option>';
+        while ($nivel= mysql_fetch_array($cons)) {
+            echo '<option value='.$nivel[0].'>'.$nivel[1].'</option>';
+        }
+        exit;
+    case '68'://Consulta escuela o intitucion escolar
+        $cons = $objJoven->get_esc_by_mun_nivel($_POST['mun'], $_POST['nivel']);
+         echo '<option value="0">[ Selecciona Escuela / Institucioon ]</option>';
+        while ($esc= mysql_fetch_array($cons)) {
+            echo '<option value='.$esc[0].'>'.$esc[1].'</option>';
+        }
+        exit;
+    case '69'://Consulta nivel escolar
+        $cons = $objJoven->get_nivel();
+         echo '<option value="0">[ Selecciona Nivel ]</option>';
+        while ($nivel= mysql_fetch_array($cons)) {
+            if($nivel[0] == $_POST['nivel'])
+            {
+                echo '<option value='.$nivel[0].' selected>'.$nivel[1].'</option>';
+            }
+            else
+            {
+                echo '<option value='.$nivel[0].'>'.$nivel[1].'</option>';
+            }  
+            
+        }
+        exit;
+    case '70'://Consulta escuela o intitucion escolar
+        $cons = $objJoven->get_esc_by_mun_nivel($_POST['mun'], $_POST['nivel']);
+         echo '<option value="0">[ Selecciona Escuela / Institucioon ]</option>';
+        while ($esc= mysql_fetch_array($cons)) {
+            if($esc[0] == $_POST['esc'])
+            {
+                echo '<option value='.$esc[0].' selected>'.$esc[1].'</option>';
+            }
+            else
+            {
+                echo '<option value='.$esc[0].' >'.$esc[1].'</option>';
+            }
+            
+        }
+        exit;
+
 }
 function crearPaginacion($nom, $ama, $apa, $tipo, $evento, $resultados_cantidad)
 {
@@ -1074,7 +1142,7 @@ function crearPaginacion($nom, $ama, $apa, $tipo, $evento, $resultados_cantidad)
     while( $joven = mysql_fetch_array($cons))//while ($modulos=mysql_fetch_array($consulta)) href=\'#prod2\' rel="modal:open"
     {
         
-        echo '<div class="search">'.$joven[0].'</div><div class="search">'.$joven[1].'</div><div class="search">'.$joven[2].'</div><div class="search">'.$joven[3].'</div><div class="search">'.$joven[4].'</div><div class="search">'.$joven[5].'</div>'.'<div class="search"><a class="detail" href="detalle.php?young='.$joven[0].'" target="_blank"  >Detalles</a></div><div class="search"><a class="detail" href="modificar.php?young='.$joven[0].'" target="_blank"  >Modificar</a></div><div class="search"><a class="detail" href="#" rel="Eliminar" id="'.$joven[0].'" name="'.$tipo.'">Eliminar</a></div><div class="search"><a class="detail" href="#" target="_blank" >Clasificar</a></div>';
+        echo '<div class="search">'.$joven[0].'</div><div class="search">'.$joven[1].'</div><div class="search">'.$joven[2].'</div><div class="search">'.$joven[3].'</div><div class="search">'.$joven[4].'</div><div class="search">'.$joven[5].'</div>'.'<div class="search"><a class="detail" href="templates/detalle.php?young='.$joven[0].'" target="_blank"  >Detalles</a></div><div class="search"><a class="detail" href="templates/modificar.php?young='.$joven[0].'" target="_blank"  >Modificar</a></div><div class="search"><a class="detail" href="#" rel="Eliminar" id="'.$joven[0].'" name="'.$tipo.'">Eliminar</a></div><div class="search"><a class="detail" href="#" target="_blank" >Clasificar</a></div>';
     }
     if ($total_registros>1)
     { 
