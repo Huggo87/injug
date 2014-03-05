@@ -929,13 +929,13 @@ function guardarJoven()
 							{
 								if( $('input[name="est"]:checked').val() != null )
 								{
-									console.log('checando bandera '+ activate);
+									
 									if(activate)
 									{
-										console.log('OUT');
+										
 										if( $('#mun-esc').val()!='0' || $('#nivel').val()!='0' || $('#esc-ins').val()!='0' )
 										{
-											console.log('IN');
+											
 											enviarDatosJovenEvento();
 										}
 										else
@@ -945,7 +945,7 @@ function guardarJoven()
 									}
 									else
 									{
-										console.log('LOL');
+										
 										enviarDatosJovenEvento();
 
 									}	
@@ -964,7 +964,7 @@ function guardarJoven()
 						{
 							if( $('input[name="est"]:checked').val() != null )
 							{
-								console.log('checando bandera '+ activate);
+								
 								if(activate)
 								{
 									
@@ -980,7 +980,7 @@ function guardarJoven()
 								}
 								else
 								{
-									console.log('LOL');
+									
 									enviarDatosJovenEvento();
 
 								}	
@@ -1056,6 +1056,7 @@ function enviarDatosJovenEvento()
 
 				
 				$(".clear-jov input:text").val('');
+				$("#email").val('');
 				$(".clear-jov input:radio").attr("checked", false);
 				$(".clear-jov select").val('');
 				$("#escuela").hide();

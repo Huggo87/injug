@@ -69,15 +69,16 @@ function inicio()
 		success:function(young)
 		{
 			//$("#page-datail").append(young);
-			//console.log(young);
+			
 			var datos = young.split('|');
+			console.log(datos);
 			segmento(datos[12]);
 			edo(datos[10]);
 			edo_mun(datos[10],datos[9]);
 			mun_esc(datos[19]);
 			nivel(datos[20]);
 			esceula(datos[19],datos[20],datos[21]);
-			console.log(datos[19] + ' '+datos[20]+' '+datos[21]);
+			
 			$('#nom').val(datos[0]);$('#ap').val(datos[1]);$('#am').val(datos[2]);
 			$('#datepicker4').val(datos[6]);
 			$('#cp').val(datos[11]); 
@@ -105,8 +106,7 @@ function inicio()
 				$('#no').attr('checked',true);
 				$('#escuela').hide();
 			}
-			//console.log($("#edo option[value="+datos[10]+"]").attr("selected",true));
-			//console.log(datos[10]);
+			
 		},
 		error:function(young)
 		{
@@ -176,7 +176,7 @@ function mun_esc(mun)
 			//beforeSend: funcion,		
 			success:function(muns){
 				$("#mun-esc").html(muns);
-				console.log(muns);
+				//console.log(muns);
 			},
 			//timeout: 4000,
 			error: function(muns){
@@ -196,7 +196,7 @@ function nivel(nivel)
 			//beforeSend: funcion,		
 			success:function(nivel){
 				$("#nivel").html(nivel);
-				console.log(nivel);
+				//console.log(nivel);
 			},
 			//timeout: 4000,
 			error: function(nivel){
@@ -216,7 +216,7 @@ function esceula(mun, nivel, esc)
 			//beforeSend: funcion,		
 			success:function(esc){
 				$("#esc-ins").html(esc);
-				console.log(esc);
+				//console.log(esc);
 			},
 			//timeout: 4000,
 			error: function(esc){
@@ -226,7 +226,6 @@ function esceula(mun, nivel, esc)
 }
 function edo(estado)
 {
-	//console.log(estado);
 	$.ajax({
 		async: true,
 		type: "POST",
@@ -271,7 +270,6 @@ function getUrlVars() {
 }
 function saveYoun()
 {
-	console.log($('#mun-esc').val()+$("#esc-ins").val());
 	var young = getUrlVars()["young"];
 	// console.log($('#nom').val()+ young);
 	$("#noti").html('');
@@ -283,8 +281,6 @@ function saveYoun()
 			{
 				//console.log(update);
 				$("#noti").html('Se ha actualizado correctamente el joven :)');
-				console.log(update)
-				
 			},
 			error:function(update)
 			{

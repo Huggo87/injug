@@ -35,15 +35,13 @@ class Joven
  	{
  		if($this->con->conectar())
  		{
- 			$query = mysql_query("SELECT detalle_joven.Id_Joven, detalle_joven.Nombre, detalle_joven.A_Paterno,detalle_joven.A_Materno,detalle_joven.CURP,detalle_joven.RFC,detalle_joven.Genero,detalle_joven.Fecha_Nac,detalle_joven.Calle_Num,detalle_joven.Colonia,detalle_joven.Id_Municipio,detalle_joven.Id_Estado,detalle_joven.CP,detalle_joven.Id_Segmento,detalle_joven.Escuela,datos_contacto.Lada_Fijo, datos_contacto.Tel_Fijo, datos_contacto.Lada_Cel, datos_contacto.Tel_Cel,datos_contacto.E_mail,cat_institucion.Id_Municipio,cat_institucion.Nivel_2,cat_institucion.Id_Instituto FROM detalle_joven INNER JOIN datos_contacto ON detalle_joven.Id_Joven = datos_contacto.Id_Persona 
- 				INNER JOIN cat_institucion ON datos_contacto.Id_Institucion = cat_institucion.Id_Instituto WHERE detalle_joven.Id_Joven= '".$id."' LIMIT 1");
+ 			$query = mysql_query("SELECT detalle_joven.Id_Joven, detalle_joven.Nombre, detalle_joven.A_Paterno,detalle_joven.A_Materno,detalle_joven.CURP,detalle_joven.RFC,detalle_joven.Genero,detalle_joven.Fecha_Nac,detalle_joven.Calle_Num,detalle_joven.Colonia,detalle_joven.Id_Municipio,detalle_joven.Id_Estado,detalle_joven.CP,detalle_joven.Id_Segmento,detalle_joven.Escuela,datos_contacto.Lada_Fijo, datos_contacto.Tel_Fijo, datos_contacto.Lada_Cel, datos_contacto.Tel_Cel,datos_contacto.E_mail,datos_contacto.Id_Municipio,datos_contacto.Id_Institucion FROM detalle_joven INNER JOIN datos_contacto ON detalle_joven.Id_Joven = datos_contacto.Id_Persona WHERE detalle_joven.Id_Joven= '".$id."' LIMIT 1");
  			if(!mysql_fetch_array($query))
  			{
  				return mysql_query("SELECT detalle_joven.Id_Joven, detalle_joven.Nombre, detalle_joven.A_Paterno,detalle_joven.A_Materno,detalle_joven.CURP,detalle_joven.RFC,detalle_joven.Genero,detalle_joven.Fecha_Nac,detalle_joven.Calle_Num,detalle_joven.Colonia,detalle_joven.Id_Municipio,detalle_joven.Id_Estado,detalle_joven.CP,detalle_joven.Id_Segmento,detalle_joven.Escuela,datos_contacto.Lada_Fijo, datos_contacto.Tel_Fijo, datos_contacto.Lada_Cel, datos_contacto.Tel_Cel,datos_contacto.E_mail FROM detalle_joven INNER JOIN datos_contacto ON detalle_joven.Id_Joven = datos_contacto.Id_Persona WHERE detalle_joven.Id_Joven= '".$id."' LIMIT 1");
  			}
  			else
- 				return mysql_query("SELECT detalle_joven.Id_Joven, detalle_joven.Nombre, detalle_joven.A_Paterno,detalle_joven.A_Materno,detalle_joven.CURP,detalle_joven.RFC,detalle_joven.Genero,detalle_joven.Fecha_Nac,detalle_joven.Calle_Num,detalle_joven.Colonia,detalle_joven.Id_Municipio,detalle_joven.Id_Estado,detalle_joven.CP,detalle_joven.Id_Segmento,detalle_joven.Escuela,datos_contacto.Lada_Fijo, datos_contacto.Tel_Fijo, datos_contacto.Lada_Cel, datos_contacto.Tel_Cel,datos_contacto.E_mail,cat_institucion.Id_Municipio,cat_institucion.Nivel_2,cat_institucion.Id_Instituto FROM detalle_joven INNER JOIN datos_contacto ON detalle_joven.Id_Joven = datos_contacto.Id_Persona 
- 				INNER JOIN cat_institucion ON datos_contacto.Id_Institucion = cat_institucion.Id_Instituto WHERE detalle_joven.Id_Joven= '".$id."' LIMIT 1");;
+ 				return mysql_query("SELECT detalle_joven.Id_Joven, detalle_joven.Nombre, detalle_joven.A_Paterno,detalle_joven.A_Materno,detalle_joven.CURP,detalle_joven.RFC,detalle_joven.Genero,detalle_joven.Fecha_Nac,detalle_joven.Calle_Num,detalle_joven.Colonia,detalle_joven.Id_Municipio,detalle_joven.Id_Estado,detalle_joven.CP,detalle_joven.Id_Segmento,detalle_joven.Escuela,datos_contacto.Lada_Fijo, datos_contacto.Tel_Fijo, datos_contacto.Lada_Cel, datos_contacto.Tel_Cel,datos_contacto.E_mail,datos_contacto.Id_Municipio,datos_contacto.Id_Institucion FROM detalle_joven INNER JOIN datos_contacto ON detalle_joven.Id_Joven = datos_contacto.Id_Persona WHERE detalle_joven.Id_Joven= '".$id."' LIMIT 1");;
 
  			//return mysql_query("SELECT detalle_joven.Id_Joven, detalle_joven.Nombre, detalle_joven.A_Paterno,detalle_joven.A_Materno,detalle_joven.CURP,detalle_joven.RFC,detalle_joven.Genero,detalle_joven.Fecha_Nac,detalle_joven.Calle_Num,detalle_joven.Colonia,detalle_joven.Id_Municipio,detalle_joven.Id_Estado,detalle_joven.CP,detalle_joven.Id_Segmento,detalle_joven.Escuela,datos_contacto.Lada_Fijo, datos_contacto.Tel_Fijo, datos_contacto.Lada_Cel, datos_contacto.Tel_Cel,datos_contacto.E_mail FROM detalle_joven INNER JOIN datos_contacto WHERE detalle_joven.Id_Joven= '".$id."' LIMIT 1");
 
@@ -212,6 +210,7 @@ class Joven
  		if($this->con->conectar())
  		{
  			return mysql_query("SELECT Id_Joven FROM asist_eventos WHERE Id_Joven = '".$idjov."' AND No_control = '".$noControl."'");
+
  		}
  		$this->con->cerrar_conexion();
  	}
@@ -229,6 +228,7 @@ class Joven
  			$id = $iduser["Id_Joven"];
  			//se verifica si el joven en el evnento
  			$userEv = $this->verifica_jovenEvento($id, $evento);
+ 			$this->validarDatosJoven( $id, $tel, $telcel, $email );
  			if ( mysql_num_rows($userEv) == 0 || mysql_num_rows($userEv) == null)
  			{
  				return $this->registro_jovenEvento($cat_ev, $id, $fechaEv, $obs, $fechaNac, $evento, $place, $sector, $date, $dateV);
@@ -237,11 +237,58 @@ class Joven
  			{
  				return '3';
  			}
+ 			//verificar si el joven capturado tiene datos telefonos y email
+ 			
  		}
  		//si en joven no existe en la tabla 
  		else
  		{
  			 return $this->registro_Joven($nombre, $apa, $ama, $genero, $segmento, $fechaNac, $edo, $mun, $curp, $rfc, $dom, $col, $tel, $telcel, $email, $est, $escmun, $escins, $cat_ev, $fechaEv, $obs, $evento, $place, $sector, $date, $dateV);
+ 		}
+ 		$this->con->cerrar_conexion();
+ 	}
+ 	function validarDatosJoven($id, $tel, $telcel, $email) {
+ 		if($this->con->conectar())
+ 		{
+ 			//mysql_query('UPDATE datos_contacto SET Tel_Cel="123456789" WHERE Id_Persona= 1' );
+ 			$joven = mysql_query("SELECT Tel_Fijo, Tel_Cel, E_mail FROM datos_contacto WHERE Id_Persona = ".$id."");
+ 			$dato = mysql_fetch_array($joven);
+ 			//mysql_query('UPDATE datos_contacto SET Tel_Cel="'.$telcel.'" WHERE Id_Persona= '.$id.'' );
+ 			//Tel_fijo, Tel_Cel, E_mail
+ 			//si (0, 0, 0)
+ 			if( $dato[0]=="" &&  $dato[1]=="" && $dato[2]=="" ) {
+ 				mysql_query("UPDATE datos_contacto SET Tel_Fijo='".$tel."', Tel_Cel='".$telcel."', E_mail='".$email."' WHERE Id_Persona= ".$id."");
+
+ 			}
+ 			//si (1, 0, 0)
+ 			else if( $dato[0]!="" && $dato[1]=="" && $dato[2]=="") {
+ 				mysql_query('UPDATE datos_contacto SET Tel_Cel="'.$telcel.'", E_mail="'.$email.'" WHERE Id_Persona = '.$id.'');
+ 			}
+ 			//si (1, 1, 0)
+ 			elseif ( $dato[0]!="" && $dato[1]!="" && $dato[2]=="" ) {
+ 				mysql_query("UPDATE datos_contacto SET E_mail='".$email."' WHERE Id_Persona= ".$id."");
+ 			}
+ 			//si (0, 0, 1)
+ 			else if ( $dato[0]=="" && $dato[1]=="" && $dato[2]!="") {
+ 				mysql_query("UPDATE datos_contacto SET Tel_Fijo='".$tel."', Tel_Cel='".$telcel."' WHERE Id_Persona =".$id."");
+ 			}
+ 			//si (0, 1, 1)
+ 			else if ( $dato[0]=="" && $dato[1]!="" && $dato[2]!="") {
+ 				mysql_query("UPDATE datos_contacto SET Tel_Fijo='".$tel."' WHERE Id_Persona=".$id."");
+ 			}
+ 			//si (1, 1, 1)
+ 			else if ( $dato[0]!="" &&  $dato[1]!="" && $dato[2]!="") {
+ 				
+ 			}
+ 			//si (1, 0, 1)
+ 			else if ( $dato[0]!="" && $dato[1]=="" && $dato[2]!="" ) {
+ 				mysql_query("UPDATE datos_contacto SET Tel_Cel='".$telcel."' WHERE Id_Persona=".$id."");
+ 			}
+ 			//si (0, 1, 0)
+ 			else if ( $dato[0]=="" && $dato[1]!="" && $dato[2]=="") {
+ 				mysql_query("UPDATE datos_contacto SET Tel_Fijo='".$tel."', E_mail='".$email."' WHERE Id_Persona=".$id."");
+ 			}
+
  		}
  		$this->con->cerrar_conexion();
  	}
@@ -731,6 +778,7 @@ class Joven
  	{
  		if($this->con->conectar())
  		{
+ 			mysql_query('DELETE FROM datos_contacto WHERE Id_Persona= '.$id.'');
  			return mysql_query('DELETE FROM detalle_joven WHERE Id_Joven = "'.$id.'"');
  		}
  		$this->con->cerrar_conexion();
@@ -847,7 +895,7 @@ class Joven
  	}
  	function get_nivel_id($id)
  	{
- 		return mysql_query('SELECT Id_nivel, Nivel FROM cat_nivel WHERE Id_nivel='.$id.'');
+ 		return mysql_query('SELECT cat_nivel.Id_nivel, cat_nivel.Nivel FROM cat_nivel INNER JOIN cat_institucion ON cat_nivel.Id_nivel = cat_institucion.Nivel_2 WHERE cat_institucion.Id_instituto ='.$id.'');
  	}
  	//obtener escuelas
  	function get_esc_by_mun_nivel($mun, $nivel)

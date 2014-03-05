@@ -150,13 +150,13 @@
                             <div class="rowInput"><input type="text" id="col" /></div>
                         </div>
                         <div class="rowElem">
-                            <div class="rowLabel"><label for="tel">Telefono Fijo (Sin espacios):</label></div>
-                            <div class="rowInput"><input type="text" id="tel" /></div>
+                            <div class="rowLabel"><label for="tel">Teléfono Fijo (Incluyendo LADA):</label></div>
+                            <div class="rowInput"><input type="text" id="tel" onKeyUp="var no_digito = /\D/g; this.value = this.value.replace(no_digito , '');" maxlength="10" size="10"/></div>
                         </div>
                         
                         <div class="rowElem">
-                            <div class="rowLabel"><label for="tel-cel">Tel. Celular (Sin espacios):</label></div>
-                            <div class="rowInput"><input type="text" id="tel-cel" /></div>
+                            <div class="rowLabel"><label for="tel-cel">Teléfono Celular (Incluyendo LADA):</label></div>
+                            <div class="rowInput"><input type="text" id="tel-cel" onKeyUp="var no_digito = /\D/g; this.value = this.value.replace(no_digito , '');" maxlength="10" size="10"/></div>
                         </div>
 
                         <div class="rowElem">

@@ -67,7 +67,15 @@ switch ($_POST['caso'])
             echo 'La actividad no puede ser capturada, mes se ha cerrado para la captura';
         }
         else{
-    		$cons = $objJoven->registrar_Joven( $_POST['nombre'], $_POST['apa'], $_POST['ama'], $_POST['genero'], $_POST['segmento'], $_POST['fechaNac'], $_POST['edo'], $_POST['mun'], $_POST['curp'], $_POST['rfc'], $_POST['dom'], $_POST['col'], $_POST['telfijo'], $_POST['telcel'], $_POST['email'], $_POST['est'], $_POST['munesc'], $_POST['esc-ins'], $_POST['cat_ev'], $_POST['fechaEv'], $_POST['obs'], $_POST['evento'], $_POST['place'], $_POST['sector'] );
+            if($_POST['est']==0){
+                $escmun=0;
+                $escins=0;
+            }
+            else {
+                $escmun=$_POST['munesc'];
+                $escins=$_POST['esc-ins'];
+            }
+    		$cons = $objJoven->registrar_Joven( $_POST['nombre'], $_POST['apa'], $_POST['ama'], $_POST['genero'], $_POST['segmento'], $_POST['fechaNac'], $_POST['edo'], $_POST['mun'], $_POST['curp'], $_POST['rfc'], $_POST['dom'], $_POST['col'], $_POST['telfijo'], $_POST['telcel'], $_POST['email'], $_POST['est'], $escmun, $escins, $_POST['cat_ev'], $_POST['fechaEv'], $_POST['obs'], $_POST['evento'], $_POST['place'], $_POST['sector'] );
     		if($cons == '1')
     		{
     			echo '1';
@@ -385,7 +393,7 @@ switch ($_POST['caso'])
                             <div class="rowElem">
                                 <div class="rowLabel"><label for="esc-ins">Escuela/Institución:</label></div>
                                 <div class="rowInput">
-                                <textarea name="" id="" cols="30" rows="10" readonly="readonly">';$mun=$objJoven->get_esc_by_mun_nivel_id($detail[22]);
+                                <textarea name="" id="" cols="30" rows="10" readonly="readonly">';$mun=$objJoven->get_esc_by_mun_nivel_id($detail[21]);
                     $munjoven = mysql_fetch_array($mun);echo $munjoven[1];echo '</textarea>
                                 </div>
                             </div>
@@ -399,7 +407,9 @@ switch ($_POST['caso'])
     case '28'://Modificar Joven
         $cons = $objJoven->buscarJovenID($_POST['joven']);
         $detail = mysql_fetch_array($cons);
-        echo $detail[1].'|'.$detail[2].'|'.$detail[3].'|'.$detail[4].'|'.$detail[5].'|'.$detail[6].'|'.$detail[7].'|'.$detail[8].'|'.$detail[9].'|'.$detail[10].'|'.$detail[11].'|'.$detail[12].'|'.$detail[13].'|'.$detail[14].'|'.$detail[15].'|'.$detail[16].'|'.$detail[17].'|'.$detail[18].'|'.$detail[19].'|'.$detail[20].'|'.$detail[21].'|'.$detail[22];
+        $mun=$objJoven->get_nivel_id($detail[21]);
+        $munjoven = mysql_fetch_array($mun);
+        echo $detail[1].'|'.$detail[2].'|'.$detail[3].'|'.$detail[4].'|'.$detail[5].'|'.$detail[6].'|'.$detail[7].'|'.$detail[8].'|'.$detail[9].'|'.$detail[10].'|'.$detail[11].'|'.$detail[12].'|'.$detail[13].'|'.$detail[14].'|'.$detail[15].'|'.$detail[16].'|'.$detail[17].'|'.$detail[18].'|'.$detail[19].'|'.$detail[20].'|'.$munjoven[0].'|'.$detail[21];
         exit;
     case '29'://Actualizar Joven
         $cons = $objJoven->update_joven( $_POST['joven'], $_POST['nombre'], $_POST['ap'], $_POST['am'], $_POST['genero'], $_POST['seg'], $_POST['fechaNac'], $_POST['edo'], $_POST['mun'], $_POST['curp'], $_POST['rfc'], $_POST['dom'], $_POST['col'], $_POST['telfijo'], $_POST['telcel'], $_POST['email'], $_POST['est'],$_POST['munesc'], $_POST['esc-ins']);
